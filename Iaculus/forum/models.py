@@ -20,7 +20,7 @@
         (,'     `--.  \;-._    ;
         :    Y      `-/    `,  :
         :    :       :     /_;'
-        :    :       |    :
+        :    :       |L    :
          \    \      :    :
           `-._ `-.__, \    `.
              \   \  `. \     `.
@@ -34,8 +34,6 @@
 
 
 """
-
-
 from django.db import models
 
 class Category(models.Model):
