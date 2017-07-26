@@ -13,5 +13,7 @@ class PostView(generic.DetailView):
     def get_queryset(self):
         return Post.objects.all()
 
+'''
 class SSSView(generic.TemplateView):
     template_name = "blog/sss.html"
+'''
