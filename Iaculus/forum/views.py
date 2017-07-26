@@ -19,7 +19,7 @@ class HomepageView(generic.ListView):
         :return:
         """
         contex = super().get_context_data(**kwargs)
-        contex["topics"]=Topic.objects.all()
+        contex["posts"]=Post.objects.all()
         return contex
 
 class CategoryView(generic.DetailView):

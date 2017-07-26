@@ -11,9 +11,10 @@
 </ul>
 <h1>Son Gönderiler</h1>
 <ul>
-    {% for obj in topics %}
+    {% for obj in posts %}
         <li>
-            <a href="{% url "topic" pk=obj.pk %}">{{obj.title}}</a>
+            <a href="{% url "topic" pk=obj.pk %}">
+                {{obj.body|truncatewords:15}}</a>
         </li>
     {% endfor %}
 </ul>
