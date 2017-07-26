@@ -1,3 +1,11 @@
 from django.shortcuts import render
+from django.views import generic
 
-# Create your views here.
+
+class HomepageView(generic.ListView):
+    model = Category
+
+class TopicView(generic.ListView):
+
+
+class PostView(generic.DetailView):
