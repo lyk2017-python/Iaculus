@@ -51,6 +51,7 @@ class Topic(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     closed = models.BooleanField(blank=True, default=False)
+    slug = models.SlugField(max_length=40)
 
     def __str__(self):
         return "#{id} {title}".format(id=self.id, title=self.title)
