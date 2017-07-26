@@ -1,12 +1,15 @@
 {% extends 'forum/base.html' %}
 
 {% block content %}
-    {{ object.title }}
-<ul>
-    {% for foo in object.posts.all %}
-        <li>{{ foo.body }}</li>
-    {% endfor %}
-</ul>
 
+<div class="post">
+    <h1>{{ object.title }}</h1>
+        {% for foo in object.posts.all %}
+            <div class="date">{{ foo.created }}</div>
+            <hr>
+            <p>{{ foo.body|linebreaks }}</p>
+        {% endfor %}
+
+</div>
 
 {% endblock %}
