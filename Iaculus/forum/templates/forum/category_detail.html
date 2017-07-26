@@ -4,12 +4,8 @@
 
     <ul>
     {% for foo in object.topics.all %}
-        <li><a href="topic" pk="foo.pk">{{ foo.title }}</a></li>
+        <li><a href="{% url "topic" pk=foo.pk %}">{{ foo.title }}</a></li>
     {% endfor %}
     </ul>
-
-
-
-
 
 {% endblock %}

@@ -1,8 +1,12 @@
 {% extends 'forum/base.html' %}
 
 {% block content %}
-{{ object }}
-{{ object.posts.all }}
-{{ object.title }}
+    {{ object.title }}
+<ul>
+    {% for foo in object.posts.all %}
+        <li>{{ foo.body }}</li>
+    {% endfor %}
+</ul>
+
 
 {% endblock %}
