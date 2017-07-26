@@ -24,7 +24,7 @@
          \    \      :    :
           `-._ `-.__, \    `.
              \   \  `. \     `.
-           ,-;    \---)_\ ,','/
+           ,-;    \   )_\ ,','/
            \_ `---'--'" ,'^-;'
            (_`     ---'" ,-')
            / `--.__,. ,-'    \
@@ -60,6 +60,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     topic = models.ForeignKey(Topic)
     body = models.TextField()
+    like = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
         return "#{id}".format(id=self.id)
