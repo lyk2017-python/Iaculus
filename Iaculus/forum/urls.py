@@ -1,9 +1,9 @@
 from django.conf.urls import url
-from forum.views import HomepageView, TopicView, PostView
+from forum.views import HomepageView, CategoryView, TopicView
 
 urlpatterns = [
     url(r'^$', HomepageView.as_view(), name="home"),
+    url(r'^category/(?P<pk>\d+)$', CategoryView.as_view(), name="category"),
     url(r'^topic/(?P<pk>\d+)$', TopicView.as_view(), name="topic"),
-    url(r'^post/(?P<pk>\d+)$', PostView.as_view(), name="post"),
     #url(r'^sss$', SSSView.as_view(), name="faq"),
 ]

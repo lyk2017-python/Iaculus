@@ -47,11 +47,10 @@ class Category(models.Model):
 
 class Topic(models.Model):
     title = models.CharField(max_length=200)
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, related_name="topics")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     closed = models.BooleanField(blank=True, default=False)
-    slug = models.SlugField(max_length=40)
 
     def __str__(self):
         return "#{id} {title}".format(id=self.id, title=self.title)
@@ -59,7 +58,7 @@ class Topic(models.Model):
 class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    topic = models.ForeignKey(Topic)
+    topic = models.ForeignKey(Topic, related_name="posts")
     body = models.TextField()
     like = models.PositiveSmallIntegerField(default=0)
 

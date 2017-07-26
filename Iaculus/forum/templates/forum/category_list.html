@@ -5,6 +5,14 @@
 <ul>
     {% for obj in object_list %}
         <li>
+            <a href="{% url "category" pk=obj.pk %}">{{obj.title}}</a>
+        </li>
+    {% endfor %}
+</ul>
+<h1>Son Gönderiler</h1>
+<ul>
+    {% for obj in topics %}
+        <li>
             <a href="{% url "topic" pk=obj.pk %}">{{obj.title}}</a>
         </li>
     {% endfor %}
