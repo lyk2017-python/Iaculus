@@ -60,6 +60,7 @@ class Topic(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     closed = models.BooleanField(blank=True, default=False)
+    slug = models.SlugField()
 
     def __str__(self):
         return "#{id} {title}".format(id=self.id, title=self.title)
@@ -74,6 +75,7 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name="posts")
     body = models.TextField()
     like = models.PositiveSmallIntegerField(default=0)
+    slug = models.SlugField()
 
     def __str__(self):
         return "#{id}".format(id=self.id)

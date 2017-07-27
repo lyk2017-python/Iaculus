@@ -5,7 +5,7 @@
 <div class="post">
     <h1>{{ object.title }}</h1>
         {% for foo in object.posts.all %}
-            <div class="date">{{ foo.created }}</div>
+            <div class="date">{{ foo.created|date:"m-d-Y" }}</div>
             <hr>
             <p>{{ foo.body|linebreaks }}</p>
         {% endfor %}
