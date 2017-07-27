@@ -1,32 +1,34 @@
 {% extends 'forum/base.html' %}
 
 {% block content %}
-
-
-
-
-    <div class="container">
-        <h2>Kategoriler</h2>
-        <div class="list-group">
-            {% for obj in object_list %}
-                <a href="{% url "category" pk=obj.pk %}" class="list-group-item">
-                    <h4 class="list-group-item-heading">{{obj.title}}</h4>
-                    <p class="list-group-item-text">{{ obj.description|truncatewords:45 }}</p>
-                </a>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="container">
-        <h2>Son Gönderiler</h2>
-        <div class="list-group">
-            {% for obj in posts %}
-                    <a href="{% url "topic" pk=obj.pk %}" class="list-group-item">
-                        <p class="list-group-item-text">{{obj.body|truncatewords:15}}</p>
+    <div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-3 sidenav">
+            <div class="container">
+            <h2>Kategoriler</h2>
+            <div class="list-group">
+                {% for obj in object_list %}
+                    <a href="{% url "category" pk=obj.pk %}" class="list-group-item">
+                        <h4 class="list-group-item-heading">{{obj.title}}</h4>
+                        <p class="list-group-item-text">{{ obj.description|truncatewords:45 }}</p>
                     </a>
-            {% endfor %}
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+        <div class="container">
+            <h2>Son Gönderiler</h2>
+            <div class="list-group">
+                {% for obj in posts %}
+                        <a href="{% url "topic" pk=obj.pk %}" class="list-group-item">
+                            <p class="list-group-item-text">{{obj.body|truncatewords:15}}</p>
+                        </a>
+                {% endfor %}
+            </div>
+        </div>
         </div>
     </div>
-
-
+    </div>
 {% endblock %}
+
