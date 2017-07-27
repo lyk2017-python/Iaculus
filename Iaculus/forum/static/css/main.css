@@ -53,3 +53,14 @@ h1, h2, h3, h4 {
 .post h1 a, .post h1 a:visited {
     color: #000000;
 }
+
+.navbar-inverse {
+	background: #2C3E50;
+}
+
+.navbar-inverse .navbar-brand, .navbar-inverse a{
+  color: white;
+}
+.navbar-inverse .navbar-nav>li>a {
+   color: white;
+}

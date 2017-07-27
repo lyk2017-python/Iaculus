@@ -7,8 +7,39 @@ admin.site.register(Topic)
 admin.site.register(Post)
 """
 
+class PostInline(admin.StackedInline):
+    model = Post
+    extra = 0
+    fieldsets = [
+        (
+            "Global",
+            {
+                "fields": [
+                    ("topic", "slug"),
+                    "body",
+                ]
+            }
+        ),
+    ]
+
+class TopicInline(admin.StackedInline):
+    model = Topic
+    extra = 0
+    fieldsets = [
+        (
+            "Global",
+            {
+                "fields": [
+                    ("title", "slug"),
+                    ("category", "closed"),
+                ]
+            }
+        ),
+    ]
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    inlines = [TopicInline, ]
     list_display = [ # Listede gösterilecek kolonlar
         "title",
         "created",
@@ -36,6 +67,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
+    inlines = [PostInline, ]
     list_display = [  # Listede gösterilecek kolonlar
         "title",
         "category",
@@ -66,7 +98,7 @@ class TopicAdmin(admin.ModelAdmin):
     ]
 
 @admin.register(Post)
-class TopicAdmin(admin.ModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     list_display = [  # Listede gösterilecek kolonlar
         "topic",
         "like",
