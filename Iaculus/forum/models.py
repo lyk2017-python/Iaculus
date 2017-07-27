@@ -47,7 +47,13 @@ class Category(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "#{id} {title}".format(id=self.id, title=self.title)
+        return "{title}".format(id=self.id, title=self.title)
+
+    class Meta:
+        get_latest_by = "created"
+        ordering = ["title"]
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
 class Topic(models.Model):
     """
@@ -63,7 +69,7 @@ class Topic(models.Model):
     slug = models.SlugField()
 
     def __str__(self):
-        return "#{id} {title}".format(id=self.id, title=self.title)
+        return "{title}".format(id=self.id, title=self.title)
 
 class Post(models.Model):
     """

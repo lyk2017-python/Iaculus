@@ -6,6 +6,7 @@
     {% for obj in object_list %}
         <li>
             <a href="{% url "category" pk=obj.pk %}">{{obj.title}}</a>
+            <p>{{ obj.description|truncatewords:45 }}</p>
         </li>
     {% endfor %}
 </ul>
