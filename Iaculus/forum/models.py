@@ -32,7 +32,7 @@
           /._______,|__________,'\
           `--.____,'|_________,-'
 
-
+The Simpsons
 """
 from django.db import models
 
