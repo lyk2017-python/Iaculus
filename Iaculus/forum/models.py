@@ -35,6 +35,8 @@
 The Simpsons
 """
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils.text import slugify
 
 
@@ -47,7 +49,7 @@ class Category(models.Model):
     description = models.TextField(blank=True, default="")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
         return "{title}".format(title=self.title)
@@ -69,7 +71,7 @@ class Topic(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     closed = models.BooleanField(blank=True, default=False)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
         return "{title}".format(id=self.id, title=self.title)
@@ -84,16 +86,32 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name="posts")
     body = models.TextField()
     like = models.PositiveSmallIntegerField(default=0)
-    slug = models.SlugField()
+    report_count = models.PositiveSmallIntegerField(default=0)
+    hidden = models.BooleanField(default=False)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return "#{id}".format(id=self.id)
 
-def slug_belirle(sender, instance, raw, *args):
-    if hasattr(sender, "title"):
-        instance.slug = slugify(instance.title + str(instance.id))
-    elif hasattr(sender, "topic"):
-        instance.slug = slugify(instance.topic + str(instance.id))
-    else:
-        raise AttributeError("Slug belirlemek için title ya da topic girin.")
+    class Meta:
+        get_latest_by = "-created"
+        ordering = ["-created"]
+
+@receiver(pre_save, sender=Category)
+@receiver(pre_save, sender=Topic)
+@receiver(pre_save, sender=Post)
+def slug_belirle(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        if hasattr(sender, "title"):
+            instance.slug = slugify(instance.title)
+        elif hasattr(sender, "topic"):
+            instance.slug = slugify(instance.topic)
+        else:
+            raise AttributeError("Slug belirlemek için title ya da topic girin.")
+    return instance
+
+@receiver(pre_save, sender=Post)
+def auto_hidden(sender, instance, *args, **kwargs):
+    if instance.report_count >= 10:
+        instance.hidden = True
     return instance

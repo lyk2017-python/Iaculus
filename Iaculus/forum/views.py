@@ -54,7 +54,7 @@ class CategoryView(generic.CreateView):
         kwargs = super().get_form_kwargs()
         if self.request.method in ["POST", "PUT"]:
             post_data = kwargs["data"].copy()
-            post_data["categories"] = [self.get_category()]
+            post_data["category"] = [self.get_category()]
             kwargs["data"] = post_data
         return kwargs
 

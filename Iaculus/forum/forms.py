@@ -11,7 +11,8 @@ class CategoriedTopicForm(forms.ModelForm):
             "id",
         ]
         widgets = {
-            "category" : HiddenInput()
+            "category" : HiddenInput(),
+            "closed" : HiddenInput(),
         }
 
 class ContactForm(forms.Form):

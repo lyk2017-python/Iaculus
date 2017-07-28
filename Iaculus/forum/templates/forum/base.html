@@ -27,8 +27,8 @@
 			</div>
 			<div class="collapse navbar-collapse" id="a">
 				<ul class="nav navbar-nav">
-					<li><a href="#">About</a></li>
-					<li><a href="#">Contact</a></li>
+                    <li><a href="{% url "newtopic" %}">New Topic</a></li>
+					<li><a href="{% url "contact" %}">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Sign Up</a></li>
@@ -37,7 +37,7 @@
 			</div>
 		</div>
 	</nav>
-    <div class="content container">
+    <div class="container">
             {% block content %}
             {% endblock %}
     </div>
