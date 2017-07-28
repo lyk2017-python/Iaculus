@@ -104,6 +104,8 @@ class PostAdmin(admin.ModelAdmin):
         "like",
         "created",
         "updated",
+        "report_count",
+        "hidden",
     ]
     search_fields = [  # Arama yapılacak özellikler
         "topic__title",
