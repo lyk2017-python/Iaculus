@@ -47,7 +47,7 @@ class Category(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{title}".format(id=self.id, title=self.title)
+        return "{title}".format(title=self.title)
 
     class Meta:
         get_latest_by = "created"

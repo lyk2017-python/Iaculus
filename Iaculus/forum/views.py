@@ -1,5 +1,8 @@
+from django.http import Http404
 from django.shortcuts import render
 from django.views import generic
+
+from forum.forms import CategoriedTopicForm
 from forum.models import Category, Topic, Post
 
 
@@ -22,12 +25,35 @@ class HomepageView(generic.ListView):
         contex["posts"]=Post.objects.all()
         return contex
 
-class CategoryView(generic.DetailView):
+class CategoryView(generic.CreateView):
     """
     Kategori altındaki topicler sıralanıcak bu yüzden DetailView
     kullandık.Kategori detayları gösteriliyor yani.
     """
-    model = Category
+    form_class = CategoriedTopicForm
+    template_name = "forum/category_create.html"
+    success_url = "."
+
+    def get_category(self):
+        query = Category.objects.filter(pk=self.kwargs["pk"])
+        if query.exists():
+            return query.get()
+        else:
+            raise Http404("Category not found")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.request.method in ["POST", "PUT"]:
+            post_data = kwargs["data"].copy()
+            post_data["categories"] = [self.get_category()]
+            kwargs["data"] = post_data
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object"] = self.get_category()
+        return context
+
 
 class TopicView(generic.DetailView):
     """
