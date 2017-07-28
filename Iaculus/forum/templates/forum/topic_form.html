@@ -1,0 +1,7 @@
+{% extends 'forum/base.html' %}
+
+{% block content %}
+{% csrf_token %}
+{{form.as_p}}
+    <button type="submit">Save</button>
+{% endblock %}

@@ -1,8 +1,8 @@
+from django.core.mail import send_mail
 from django.http import Http404
-from django.shortcuts import render
 from django.views import generic
 
-from forum.forms import CategoriedTopicForm
+from forum.forms import CategoriedTopicForm, ContactForm
 from forum.models import Category, Topic, Post
 
 
@@ -24,6 +24,15 @@ class HomepageView(generic.ListView):
         contex = super().get_context_data(**kwargs)
         contex["posts"]=Post.objects.all()
         return contex
+
+class TopicCreateView(generic.CreateView):
+    model = Topic
+    success_url = "/"
+    fields = [
+        "title",
+        "category",
+        "slug",
+    ]
 
 class CategoryView(generic.CreateView):
     """
@@ -61,6 +70,25 @@ class TopicView(generic.DetailView):
     """
     model = Topic
 
+class ContactFormView(generic.FormView):
+    form_class = ContactForm
+    template_name = "forum/contact.html"
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        from django.conf import settings
+        send_mail(
+            "Forum ContactForm : {}".format(data["title"]),
+            ("Sistemden size gelen bir bildirim var\n"
+             "---\n"
+             "{}\n"
+             "---\n"
+             "eposta={}\n"
+             "ip={}").format(data["body"], data["email"],
+                             self.request.META["REMOTE_ADDR"],
+                             settings.DEFAULT_FROM_EMAIL,
+                             ["admin@iaculus.com"])
+        )
 
 '''
 ilerde sss eklemek istersek bunu kullanıcaz

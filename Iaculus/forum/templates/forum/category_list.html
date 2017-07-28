@@ -1,6 +1,7 @@
 {% extends 'forum/base.html' %}
 
 {% block content %}
+    <h6><a href="{% url "newtopic" %}">New Topic</a></h6>
     <div class="container-fluid">
     <div class="row content">
         <div class="col-sm-3 sidenav">
@@ -30,5 +31,7 @@
         </div>
     </div>
     </div>
+    <a href=""></a>
+    <a href="{% url "contact" %}">İletişim</a>
 {% endblock %}
 

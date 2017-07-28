@@ -11,5 +11,10 @@ class CategoriedTopicForm(forms.ModelForm):
             "id",
         ]
         widgets = {
-            "categories" : HiddenInput()
+            "category" : HiddenInput()
         }
+
+class ContactForm(forms.Form):
+    email = forms.EmailField()
+    title = forms.CharField(max_length=160)
+    body = forms.CharField(widget=forms.Textarea(attrs={"rows":3}))

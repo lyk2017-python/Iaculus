@@ -35,6 +35,8 @@
 The Simpsons
 """
 from django.db import models
+from django.utils.text import slugify
+
 
 class Category(models.Model):
     """
@@ -45,6 +47,7 @@ class Category(models.Model):
     description = models.TextField(blank=True, default="")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return "{title}".format(title=self.title)
@@ -66,7 +69,7 @@ class Topic(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     closed = models.BooleanField(blank=True, default=False)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return "{title}".format(id=self.id, title=self.title)
@@ -85,3 +88,12 @@ class Post(models.Model):
 
     def __str__(self):
         return "#{id}".format(id=self.id)
+
+def slug_belirle(sender, instance, raw, *args):
+    if hasattr(sender, "title"):
+        instance.slug = slugify(instance.title + str(instance.id))
+    elif hasattr(sender, "topic"):
+        instance.slug = slugify(instance.topic + str(instance.id))
+    else:
+        raise AttributeError("Slug belirlemek için title ya da topic girin.")
+    return instance
