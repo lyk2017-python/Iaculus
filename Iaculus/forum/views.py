@@ -73,22 +73,24 @@ class TopicView(generic.DetailView):
 class ContactFormView(generic.FormView):
     form_class = ContactForm
     template_name = "forum/contact.html"
+    success_url = "/"
 
     def form_valid(self, form):
         data = form.cleaned_data
         from django.conf import settings
         send_mail(
-            "Forum ContactForm : {}".format(data["title"]),
+            "Iaculus ContactForm : {}".format(data["title"]),
             ("Sistemden size gelen bir bildirim var\n"
              "---\n"
              "{}\n"
              "---\n"
              "eposta={}\n"
              "ip={}").format(data["body"], data["email"],
-                             self.request.META["REMOTE_ADDR"],
-                             settings.DEFAULT_FROM_EMAIL,
-                             ["admin@iaculus.com"])
+                             self.request.META["REMOTE_ADDR"]),
+            settings.DEFAULT_FROM_EMAIL,
+            ["safa@iaculus.com"]
         )
+        return super().form_valid(form)
 
 '''
 ilerde sss eklemek istersek bunu kullanıcaz
