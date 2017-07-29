@@ -14,14 +14,10 @@ class HomepageView(generic.ListView):
     model = Category
 
     def get_context_data(self, **kwargs):
-        """
-        Bu method şu anda kategorileri sıralıyor fakat postları sıralıcak
-        şekilde düzenlicez
-        :param kwargs:
-        :return:
-        """
         contex = super().get_context_data(**kwargs)
-        contex["posts"]=Post.objects.all()
+        contex["last_posts"]=Post.objects.all()
+        contex["liked_posts"]=Post.objects.order_by("-like")
+        contex["most_viewed_topics"]=Topic.objects.order_by("-viewed")
         return contex
 
 class TopicCreateView(generic.CreateView):

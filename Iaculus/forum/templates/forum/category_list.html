@@ -12,23 +12,23 @@
                 <li role="presentation" class="active">
                     <a href="#home" aria-controls="home" role="tab"
                        data-toggle="tab">
-                        Kategoriler
+                        Categories
                     </a>
                 </li>
                 <li role="presentation">
                     <a href="#profile" aria-controls="profile" role="tab"
                     data-toggle="tab">
-                        Son Gönderiler
+                        Last Posts
                     </a>
                 </li>
                 <li role="presentation">
                     <a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">
-                        Messages
+                        Most Liked Posts
                     </a>
                 </li>
                 <li role="presentation">
                     <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
-                        Settings
+                        Most Viewed
                     </a>
                 </li>
             </ul>
@@ -48,22 +48,42 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="profile">
                     <div class="list-group">
-                        {% for obj in posts %}
+                        {% for obj in last_posts %}
                                 <a href="{% url "topic" pk=obj.topic.pk %}"
                                    class="list-group-item">
                                     <h4 class="list-group-item-heading">{{ obj.topic.title }}</h4>
                                     <p class="list-group-item-text">
                                         {{obj.body|truncatewords:25}}
                                     </p>
+                                    <p>{{ obj.created }}</p>
                                 </a>
                         {% endfor %}
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="messages">
-
+                    <div class="list-group">
+                        {% for obj in liked_posts %}
+                                <a href="{% url "topic" pk=obj.topic.pk %}"
+                                   class="list-group-item">
+                                    <h4 class="list-group-item-heading">{{ obj.topic.title }}</h4>
+                                    <p class="list-group-item-text">
+                                        {{obj.body|truncatewords:25}}
+                                    </p>
+                                    <p>Like: {{ obj.like }}</p>
+                                </a>
+                        {% endfor %}
+                    </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="settings">
-
+                    <div class="list-group">
+                        {% for obj in most_viewed_topics %}
+                                <a href="{% url "topic" pk=obj.pk %}"
+                                   class="list-group-item">
+                                    <h4 class="list-group-item-heading">{{ obj.title }}</h4>
+                                    <p>Viewed: {{ obj.viewed }}</p>
+                                </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             </div>

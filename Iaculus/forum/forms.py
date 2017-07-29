@@ -6,6 +6,7 @@ from forum.models import Topic, Post, Category
 
 
 class NewPostForm(forms.ModelForm):
+    body = forms.CharField(widget=forms.Textarea(attrs={"rows":4}))
     class Meta:
         model = Post
         exclude = [

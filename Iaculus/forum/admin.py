@@ -74,6 +74,7 @@ class TopicAdmin(admin.ModelAdmin):
         "created",
         "updated",
         "closed",
+        "viewed",
     ]
     search_fields = [  # Arama yapılacak özellikler
         "title",
@@ -84,6 +85,7 @@ class TopicAdmin(admin.ModelAdmin):
         "updated",
         "closed",
         "category",
+        "viewed",
     ]
     fieldsets = [
         (
@@ -92,6 +94,7 @@ class TopicAdmin(admin.ModelAdmin):
                 "fields": [
                     ("title", "slug"),
                     ("category", "closed"),
+                    "viewed",
                 ]
             }
         ),
@@ -124,7 +127,8 @@ class PostAdmin(admin.ModelAdmin):
                 "fields": [
                     ("topic", "slug"),
                     "body",
+                    ("like", "report_count", "hidden"),
                 ]
-            }
+            },
         ),
     ]
