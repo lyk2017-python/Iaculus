@@ -2,20 +2,18 @@
 
 {% block content %}
 
-    <div class="post">
-        <h1>{{ object.title }}</h1>
-        {% for foo in object.posts.all %}
-            <div class="date">{{ foo.created }}</div>
-            <hr>
-            <p>{{ foo.body|linebreaks }}</p>
+    <h1>{{ object.title }}</h1>
+    {% for foo in object.posts.all %}
+        <div class="date">{{ foo.created }}</div>
+        <hr>
+        <p>{{ foo.body|linebreaks }}</p>
 
-        {% endfor %}
-    </div>
+    {% endfor %}
     <hr>
     <form action="." method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <button type="submit" class="btn btn-info" value="Submit Button">Save</button>
     </form>
 
 {% endblock %}
