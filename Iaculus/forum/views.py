@@ -1,5 +1,7 @@
 from django.core.mail import send_mail
+from django.db.models import F
 from django.http import Http404
+from django.shortcuts import render_to_response
 from django.urls import reverse
 from django.views import generic
 
@@ -92,8 +94,14 @@ class TopicView(generic.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["object"] = self.get_topic()
+        object = self.get_topic()
+        object.viewed = F("viewed") + 1
+        object.save(update_fields=["viewed"])
+        object.refresh_from_db()
+        context["object"] = object
         return context
+
+
 
 class ContactFormView(generic.FormView):
     """

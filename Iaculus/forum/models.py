@@ -72,7 +72,7 @@ class Topic(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     closed = models.BooleanField(blank=True, default=False)
-    viewed = models.PositiveSmallIntegerField(default=0, blank=0)
+    viewed = models.PositiveSmallIntegerField(default=0)
     slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
