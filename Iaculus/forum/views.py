@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 from django.http import Http404
+from django.urls import reverse
 from django.views import generic
 
 from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm
@@ -35,13 +36,16 @@ class TopicCreateView(generic.CreateView):
         "slug",
     ]
 
-class CategoryView(generic.CreateView):
+class CategoryView(generic.FormView):
     """
     Kategori altındaki topicler sıralanır ve kategorisiz topic açılır
     """
     form_class = CategoriedTopicForm
     template_name = "forum/category_create.html"
     success_url = "."
+
+    def get_success_url(self):
+        return reverse("topic", kwargs={"pk":self.object.id})
 
     def get_category(self):
         query = Category.objects.filter(pk=self.kwargs["pk"])
@@ -63,6 +67,9 @@ class CategoryView(generic.CreateView):
         context["object"] = self.get_category()
         return context
 
+    def form_valid(self, form):
+        self.object = form.save()
+        return super().form_valid(form)
 
 class TopicView(generic.CreateView):
     """

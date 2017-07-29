@@ -1,19 +1,9 @@
 from django import forms
+from django.db import transaction
 from django.forms import HiddenInput
 
-from forum.models import Topic, Post
+from forum.models import Topic, Post, Category
 
-
-class CategoriedTopicForm(forms.ModelForm):
-    class Meta:
-        model = Topic
-        exclude = [
-            "id",
-        ]
-        widgets = {
-            "category" : HiddenInput(),
-            "closed" : HiddenInput(),
-        }
 
 class NewPostForm(forms.ModelForm):
     class Meta:
@@ -30,6 +20,19 @@ class NewPostForm(forms.ModelForm):
         widgets = {
             "topic" : HiddenInput(),
         }
+
+class CategoriedTopicForm(forms.Form):
+    title = forms.CharField()
+    category = forms.ModelChoiceField(Category.objects.filter(),
+                                      widget=HiddenInput())
+    body = forms.CharField(widget=forms.Textarea(attrs={"rows":3}))
+
+    def save(self):
+        with transaction.atomic():
+            topic = Topic.objects.create(title=self.cleaned_data["title"],
+                                         category=self.cleaned_data["category"])
+            Post.objects.create(topic=topic, body=self.cleaned_data["body"])
+        return topic
 
 class ContactForm(forms.Form):
     email = forms.EmailField()

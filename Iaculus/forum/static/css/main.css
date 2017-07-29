@@ -18,7 +18,7 @@ h1 a {
 body {
     padding-left: 0px;
     padding-top: 70px;
-    background-image: url("../../static/google-earth-view-1007.jpg");
+    /*background-image: url("../../static/google-earth-view-1007.jpg");*/
 }
 .page-header {
     background-color: lightseagreen;
