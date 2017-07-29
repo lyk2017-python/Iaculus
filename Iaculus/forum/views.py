@@ -2,15 +2,13 @@ from django.core.mail import send_mail
 from django.http import Http404
 from django.views import generic
 
-from forum.forms import CategoriedTopicForm, ContactForm
+from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm
 from forum.models import Category, Topic, Post
 
 
 class HomepageView(generic.ListView):
     """
-    Anasayfada kategoriler solda, son postlar sağda listelenicek.Bu yüzden
-    ListView kullandıkŞu anda kategoriler listeleniyor ve ilgili kategori
-    altındaki topiclere gidiyor, fakat postları sıralama yazılacak.
+    Anasayfada view: katogoriler ve spn gönderiler gösterilir
     """
     model = Category
 
@@ -26,6 +24,9 @@ class HomepageView(generic.ListView):
         return contex
 
 class TopicCreateView(generic.CreateView):
+    """
+    Anasayfadaki new post ile açılan sayfanın modeli: Kategorili topic açma
+    """
     model = Topic
     success_url = "/"
     fields = [
@@ -36,8 +37,7 @@ class TopicCreateView(generic.CreateView):
 
 class CategoryView(generic.CreateView):
     """
-    Kategori altındaki topicler sıralanıcak bu yüzden DetailView
-    kullandık.Kategori detayları gösteriliyor yani.
+    Kategori altındaki topicler sıralanır ve kategorisiz topic açılır
     """
     form_class = CategoriedTopicForm
     template_name = "forum/category_create.html"
@@ -64,13 +64,38 @@ class CategoryView(generic.CreateView):
         return context
 
 
-class TopicView(generic.DetailView):
+class TopicView(generic.CreateView):
     """
-    Kategoriyle aynı mantık.Bir topic altındaki postlar sıralanıcak
+    Bir topic altındaki postlar sıralanır ve topic seçmeden post atılır
     """
-    model = Topic
+    form_class = NewPostForm
+    template_name = "forum/topic_create.html"
+    success_url = "."
+
+    def get_topic(self):
+        query = Topic.objects.filter(pk=self.kwargs["pk"])
+        if query.exists():
+            return query.get()
+        else:
+            raise Http404("Topic not found")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.request.method in ["POST", "PUT"]:
+            post_data = kwargs["data"].copy()
+            post_data["topic"] = self.get_topic().id
+            kwargs["data"] = post_data
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["object"] = self.get_topic()
+        return context
 
 class ContactFormView(generic.FormView):
+    """
+    Contact form page
+    """
     form_class = ContactForm
     template_name = "forum/contact.html"
     success_url = "/"

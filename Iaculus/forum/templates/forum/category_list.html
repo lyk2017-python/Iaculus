@@ -4,6 +4,7 @@
     <div class="container-fluid">
     <div class="row content">
         <div class="col-sm-8">
+        <div class="well well-lg">
             <h2>Son Gönderiler</h2>
             <div class="list-group">
                 {% for obj in posts %}
@@ -15,7 +16,9 @@
                 {% endfor %}
             </div>
         </div>
+        </div>
         <div class="col-sm-4 sidenav">
+        <div class="well well-lg">
             <h2>Kategoriler</h2>
             <div class="list-group">
                 {% for obj in object_list %}
@@ -26,6 +29,7 @@
                     </a>
                 {% endfor %}
             </div>
+        </div>
         </div>
     </div>
     </div>
