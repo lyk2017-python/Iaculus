@@ -101,19 +101,21 @@ class TopicAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = [  # Listede gösterilecek kolonlar
         "topic",
-        "like",
         "created",
         "updated",
+        "like",
         "report_count",
         "hidden",
     ]
     search_fields = [  # Arama yapılacak özellikler
         "topic__title",
+        "slug",
     ]
     list_filter = [  # Filtrelenecek özellikler
+        "like",
+        "hidden",
         "created",
         "updated",
-        "like",
     ]
     fieldsets = [
         (
