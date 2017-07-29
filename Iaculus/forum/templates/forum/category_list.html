@@ -51,7 +51,7 @@
                         {% for obj in posts %}
                                 <a href="{% url "topic" pk=obj.topic.pk %}"
                                    class="list-group-item">
-                                    <h4>{{ obj.topic.title }}</h4>
+                                    <h4 class="list-group-item-heading">{{ obj.topic.title }}</h4>
                                     <p class="list-group-item-text">
                                         {{obj.body|truncatewords:25}}
                                     </p>

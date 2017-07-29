@@ -80,7 +80,7 @@ class TopicView(generic.CreateView):
     success_url = "."
 
     def get_topic(self):
-        query = Topic.objects.filter(pk=self.kwargs["pk"])
+        query = Topic.objects.filter(pk=self.kwargs["pk"]).order_by("created")
         if query.exists():
             return query.get()
         else:
