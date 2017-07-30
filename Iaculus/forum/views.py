@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from django.db.models import F
 from django.http import Http404
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
@@ -101,8 +101,6 @@ class TopicView(generic.CreateView):
         context["object"] = object
         return context
 
-
-
 class ContactFormView(generic.FormView):
     """
     Contact form page
@@ -127,6 +125,7 @@ class ContactFormView(generic.FormView):
             ["safa@iaculus.com"]
         )
         return super().form_valid(form)
+
 
 '''
 ilerde sss eklemek istersek bunu kullanıcaz
