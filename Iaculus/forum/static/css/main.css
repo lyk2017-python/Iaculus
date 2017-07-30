@@ -84,3 +84,12 @@ h1, h2, h3, h4 {
 .navbar-inverse .navbar-nav>li>a {
    color: white;
 }
+
+.affix {
+      top: 0;
+      width: 100%;
+  }
+
+.affix + .container-fluid {
+  padding-top: 70px;
+}

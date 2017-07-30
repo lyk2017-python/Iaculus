@@ -1,18 +1,63 @@
 {% extends 'forum/base.html' %}
 
 {% block content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
 
-    <ul>
-    {% for foo in object.topics.all %}
-        <li><a href="{% url "topic" pk=foo.pk %}"
-        >{{ foo.title }}</a></li>
-    {% endfor %}
-    </ul>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Posts</th>
+            <th>Viewed</th>
+            <th>Last Post</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for foo in object.topics.all %}
+            <tr>
+                <th><a href="{% url "topic" pk=foo.pk %}">{{ foo.title }}</a></th>
+                <th>Posts</th>
+                <th>{{ foo.viewed }}</th>
+                <th>{{ foo.updated }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <hr>
-    <form action="." method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-info" value="Submit Button">Save</button>
-    </form>
+
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-md" data-toggle="modal"
+        data-target="#myModal">Open New Topic
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;
+                    </button>
+                    <br>
+                    </div>
+                    <div class="modal-body">
+                    <form action="." method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-info" value="Submit Button">Save</button>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
 
 {% endblock %}

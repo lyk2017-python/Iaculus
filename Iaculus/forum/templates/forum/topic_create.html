@@ -1,19 +1,51 @@
 {% extends 'forum/base.html' %}
 
 {% block content %}
+    <div class="container">
+        <div class="date">Page View: {{ object.viewed }}</div>
+        <h2 class="media-heading">{{ object.title }}</h2>
+        {% for foo in object.posts.all %}
+        <div class="media">
+            <div class="media-left media-middle">
+              <img src="https://www.causes.com/assets/avatar_placeholder-9a2f53db6270aa02b5ae2c5af1ffc72b.svg" class="media-object" style="width:80px">
+            </div>
+            <div class="media-body">
+                    <p>{{ foo.body|linebreaks }}</p>
+            </div>
+        </div>
+            <div class="date">{{ foo.created }}</div>
+        {% endfor %}
+    </div>
 
-    <h1>{{ object.title }}</h1>
-    {% for foo in object.posts.all %}
-        <div class="date">{{ foo.created }}</div>
-        <hr>
-        <p>{{ foo.body|linebreaks }}</p>
-    {% endfor %}
-    View: {{ object.viewed }}
-    <hr>
-    <form action="." method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-info" value="Submit Button">Save</button>
-    </form>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <button type="button" class="btn btn-info btn-md" data-toggle="modal"
+        data-target="#myModal">New Post
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;
+                    </button>
+                    <br>
+                    </div>
+                    <div class="modal-body">
+                    <form action="." method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-info" value="Submit Button">Save</button>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
