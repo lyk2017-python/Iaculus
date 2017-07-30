@@ -16,7 +16,8 @@
         <tbody>
             {% for foo in object.topics.all %}
             <tr>
-                <th><a href="{% url "topic" pk=foo.pk %}">{{ foo.title }}</a></th>
+                <th><a href="{% url "topic" slug=foo.slug %}"
+                >{{ foo.title }}</a></th>
                 <th>Posts</th>
                 <th>{{ foo.viewed }}</th>
                 <th>{{ foo.updated }}</th>

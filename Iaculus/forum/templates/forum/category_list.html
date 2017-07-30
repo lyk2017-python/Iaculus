@@ -35,7 +35,8 @@
         <div role="tabpanel" class="tab-pane active" id="home">
             <div class="list-group">
                 {% for obj in object_list %}
-                    <a href="{% url "category" pk=obj.pk %}" class="list-group-item">
+                    <a href="{% url "category" slug=obj.slug %}"
+                       class="list-group-item">
                         <h4 class="list-group-item-heading">{{obj.title}}</h4>
                         <p class="list-group-item-text">
                             {{ obj.description|truncatewords:15 }}</p>
@@ -46,7 +47,7 @@
         <div role="tabpanel" class="tab-pane" id="profile">
             <div class="list-group">
                 {% for obj in last_posts %}
-                        <a href="{% url "topic" pk=obj.topic.pk %}"
+                        <a href="{% url "topic" slug=obj.topic.slug %}"
                            class="list-group-item">
                             <h4 class="list-group-item-heading">{{ obj.topic.title }}</h4>
                             <p class="list-group-item-text">
@@ -60,7 +61,7 @@
         <div role="tabpanel" class="tab-pane" id="messages">
             <div class="list-group">
                 {% for obj in liked_posts %}
-                        <a href="{% url "topic" pk=obj.topic.pk %}"
+                        <a href="{% url "topic" slug=obj.topic.slug %}"
                            class="list-group-item">
                             <h4 class="list-group-item-heading">{{ obj.topic.title }}</h4>
                             <p class="list-group-item-text">
@@ -74,7 +75,7 @@
         <div role="tabpanel" class="tab-pane" id="settings">
             <div class="list-group">
                 {% for obj in most_viewed_topics %}
-                        <a href="{% url "topic" pk=obj.pk %}"
+                        <a href="{% url "topic" slug=obj.slug %}"
                            class="list-group-item">
                             <h4 class="list-group-item-heading">{{ obj.title }}</h4>
                             <p>Viewed: {{ obj.viewed }}</p>
