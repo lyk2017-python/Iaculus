@@ -87,7 +87,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     topic = models.ForeignKey(Topic, related_name="posts")
     body = models.TextField()
-    like = models.PositiveSmallIntegerField(default=0)
+    score = models.SmallIntegerField(default=0)
     report_count = models.PositiveSmallIntegerField(default=0)
     hidden = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)

@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from django.db.models import F
-from django.http import Http404
-from django.shortcuts import render_to_response, get_object_or_404
+from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
@@ -17,9 +17,9 @@ class HomepageView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)
-        contex["last_posts"]=Post.objects.all()
-        contex["liked_posts"]=Post.objects.order_by("-like")
-        contex["most_viewed_topics"]=Topic.objects.order_by("-viewed")
+        contex["last_posts"] = Post.objects.all()
+        contex["liked_posts"] = Post.objects.order_by("-score")
+        contex["most_viewed_topics"] = Topic.objects.order_by("-viewed")
         return contex
 
 class TopicCreateView(generic.CreateView):
@@ -43,7 +43,7 @@ class CategoryView(generic.FormView):
     success_url = "."
 
     def get_success_url(self):
-        return reverse("topic", kwargs={"slug":self.object.id})
+        return reverse("topic", kwargs={"slug" : self.object.id})
 
     def get_category(self):
         query = Category.objects.filter(slug=self.kwargs["slug"])
@@ -100,7 +100,23 @@ class TopicView(generic.CreateView):
         object.save(update_fields=["viewed"])
         object.refresh_from_db()
         context["object"] = object
+        context["object_filter"] = object.posts.filter(hidden=False)
         return context
+
+def like(request):
+    id = request.POST.get("id", default=None)
+    like = request.POST.get("like")
+    obj = get_object_or_404(Post, id=int(id))
+    if like == "true":
+        obj.score = F("score") + 1
+        obj.save(update_fields=["score"])
+    elif like == "false":
+        obj.score = F("score") - 1
+        obj.save(update_fields=["score"])
+    else:
+        return HttpResponse(status=400)
+    obj.refresh_from_db()
+    return JsonResponse({"like": obj.score, "id": id})
 
 class ContactFormView(generic.FormView):
     """
@@ -123,7 +139,7 @@ class ContactFormView(generic.FormView):
              "ip={}").format(data["body"], data["email"],
                              self.request.META["REMOTE_ADDR"]),
             settings.DEFAULT_FROM_EMAIL,
-            ["safa@iaculus.com"]
+            ["safafaydali@gmail.com"]
         )
         return super().form_valid(form)
 

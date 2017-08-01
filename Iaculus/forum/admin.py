@@ -106,7 +106,7 @@ class PostAdmin(admin.ModelAdmin):
         "topic",
         "created",
         "updated",
-        "like",
+        "score",
         "report_count",
         "hidden",
     ]
@@ -115,7 +115,7 @@ class PostAdmin(admin.ModelAdmin):
         "slug",
     ]
     list_filter = [  # Filtrelenecek özellikler
-        "like",
+        "score",
         "hidden",
         "created",
         "updated",
@@ -127,7 +127,7 @@ class PostAdmin(admin.ModelAdmin):
                 "fields": [
                     ("topic", "slug"),
                     "body",
-                    ("like", "report_count", "hidden"),
+                    ("score", "report_count", "hidden"),
                 ]
             },
         ),

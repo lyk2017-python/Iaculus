@@ -3,17 +3,21 @@
 {% block content %}
     <div class="container">
         <div class="date">Page View: {{ object.viewed }}</div>
-        <h2 class="media-heading">{{ object.title }}</h2>
-        {% for foo in object.posts.all %}
-        <div class="media">
+        <h2 class="media-heading">{{ object.title|title }}</h2>
+        {% for foo in object_filter %}
+          <div class="media">
             <div class="media-left media-middle">
               <img src="https://www.causes.com/assets/avatar_placeholder-9a2f53db6270aa02b5ae2c5af1ffc72b.svg" class="media-object" style="width:80px">
             </div>
             <div class="media-body">
-                    <p>{{ foo.body|linebreaks }}</p>
+              <p>{{ foo.body|linebreaks }}</p>
             </div>
-        </div>
-            <div class="date">{{ foo.created }}</div>
+          </div>
+          <div class="date">{{ foo.created }}</div>
+          <hr>
+          <span id="like_{{ foo.id }}">{{foo.score}}</span>
+          <button onclick="like(true, {{ foo.id }})">Like</button>
+          <button onclick="like(false, {{ foo.id }})">Dislike</button>
         {% endfor %}
     </div>
 
@@ -47,5 +51,20 @@
             </div>
         </div>
     </div>
+    <script>
+      function like(param, id) {
+        $.post({
+          data: {
+            "like": param,
+            "id": id,
+            "csrfmiddlewaretoken": getCookie('csrftoken')
+          },
+          url: "{% url "like_dislike" %}",
+          success: function (data) {
+            $("#like_"+data.id).text(data.like)
+          }
+        })
+      }
+    </script>
 
 {% endblock %}

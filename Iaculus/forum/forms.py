@@ -11,7 +11,7 @@ class NewPostForm(forms.ModelForm):
         model = Post
         exclude = [
             "id",
-            "like",
+            "score",
             "report_count",
             "hidden",
             "created",
