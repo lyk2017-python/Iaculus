@@ -104,7 +104,6 @@ class User(AbstractUser):
 
 @receiver(pre_save, sender=Category)
 @receiver(pre_save, sender=Topic)
-@receiver(pre_save, sender=Post)
 def slug_belirle(sender, instance, *args, **kwargs):
     if not instance.slug:
         if hasattr(sender, "title"):

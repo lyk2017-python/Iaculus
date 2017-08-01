@@ -5,8 +5,8 @@ from forum.views import like, HomepageView, CategoryView, TopicView, \
 
 urlpatterns = [
     url(r'^$', HomepageView.as_view(), name="home"),
-    url(r'^category/(?P<slug>[\w-]+)/$',
-        CategoryView.as_view(), name="category"),
+    url(r'^category/(?P<slug>[\w-]+)/$', CategoryView.as_view(),
+        name="category"),
     url(r'^topic/(?P<slug>[\w-]+)/$', TopicView.as_view(), name="topic"),
     url(r'^newtopic/$', TopicCreateView.as_view(), name="newtopic"),
     url(r'^contact/$', ContactFormView.as_view(), name="contact"),

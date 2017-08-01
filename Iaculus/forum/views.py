@@ -43,7 +43,7 @@ class CategoryView(generic.FormView):
     success_url = "."
 
     def get_success_url(self):
-        return reverse("topic", kwargs={"slug" : self.object.id})
+        return reverse("topic", kwargs={"slug" : self.object.slug})
 
     def get_category(self):
         query = Category.objects.filter(slug=self.kwargs["slug"])
@@ -78,8 +78,7 @@ class TopicView(generic.CreateView):
     success_url = "."
 
     def get_topic(self):
-        query = Topic.objects.filter(slug=self.kwargs["slug"]).order_by(
-            "created")
+        query = Topic.objects.filter(slug=self.kwargs["slug"]).order_by("created")
         if query.exists():
             return query.get()
         else:

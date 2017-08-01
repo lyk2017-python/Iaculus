@@ -16,10 +16,10 @@ class NewPostForm(forms.ModelForm):
             "hidden",
             "created",
             "updated",
-            "slug",
         ]
         widgets = {
             "topic" : HiddenInput(),
+            "slug" : HiddenInput(),
         }
 
 class CategoriedTopicForm(forms.Form):
