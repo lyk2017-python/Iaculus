@@ -1,6 +1,9 @@
 from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 from django.forms import HiddenInput
+from django.http import HttpResponseRedirect
 
 from forum.models import Topic, Post, Category
 
@@ -51,3 +54,7 @@ class ContactForm(forms.Form):
     email = forms.EmailField()
     title = forms.CharField(max_length=160)
     body = forms.CharField(widget=forms.Textarea(attrs={"rows":3}))
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()

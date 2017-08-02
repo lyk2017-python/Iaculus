@@ -96,7 +96,7 @@ class Post(models.Model):
         return "#{id}".format(id=self.id)
 
     class Meta:
-        get_latest_by = "-created"
+        get_latest_by = "created"
         ordering = ["-created"]
 
 class User(AbstractUser):

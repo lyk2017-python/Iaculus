@@ -46,17 +46,18 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if request.user.is_authenticated %}
-            <form action="{% url "logout" %}" method="post" >
-              {% csrf_token %}
-              <input type="hidden" value="/" name="next">
-              <span>Hello {{ request.user.username }},</span>
-              <button>Logout</button>
+            <form class="navbar-form navbar-left" action="{% url "logout" %}" method="post">
+              <div class="form-group">
+                {% csrf_token %}
+                <input type="hidden" value="/" name="next">
+                <span>Signed in as {{ request.user.username|upper }},</span>
+              </div>
+              <button class="btn btn-sm">Logout</button>
             </form>
           {% else %}
-            <li><a href="#">Sign Up</a></li>
-            <li><a href="{% url "login" %}">Login</a></li>
+            <li><a href="{% url "signup" %}">Sign Up</a></li>
+            <li><a href="{% url "login" %}">Sign In</a></li>
           {% endif %}
-
         </ul>
       </div>
     </div>

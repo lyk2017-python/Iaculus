@@ -99,7 +99,7 @@ body {
     background: #486579;
 }
 
-ul>form>span {
+.form-group>span {
     color: white;
     padding-top: 10px;
 }

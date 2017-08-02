@@ -8,7 +8,8 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm, TopicForm
+from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm, \
+    TopicForm, CustomUserCreationForm
 from forum.models import Category, Topic, Post
 
 class LoginCreateView(LoginRequiredMixin, generic.CreateView):
@@ -26,21 +27,6 @@ class HomepageView(generic.ListView):
         contex["liked_posts"] = Post.objects.order_by("-score")
         contex["most_viewed_topics"] = Topic.objects.order_by("-viewed")
         return contex
-
-class TopicCreateView(generic.FormView):
-    """
-    Anasayfadaki new post ile açılan sayfanın modeli: Kategorili topic açma
-    """
-    form_class = TopicForm
-    template_name = "forum/topic_form.html"
-    success_url = "."
-
-    def get_success_url(self):
-        return reverse("topic", kwargs={"slug" : self.object.slug})
-
-    def form_valid(self, form):
-        self.object = form.save()
-        return super().form_valid(form)
 
 class CategoryView(generic.FormView):
     """
@@ -70,14 +56,14 @@ class CategoryView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["object"] = self.get_category()
+        context["objects"] = self.get_category().topics.all()
         return context
 
     def form_valid(self, form):
         self.object = form.save()
         return super().form_valid(form)
 
-class TopicView(LoginCreateView):
+class TopicView(generic.CreateView):
     """
     Bir topic altındaki postlar sıralanır ve topic seçmeden post atılır
     """
@@ -154,6 +140,20 @@ class ContactFormView(generic.FormView):
         )
         return super().form_valid(form)
 
+class TopicCreateView(generic.FormView):
+    """
+    Anasayfadaki new post ile açılan sayfanın modeli: Kategorili topic açma
+    """
+    form_class = TopicForm
+    template_name = "forum/topic_form.html"
+    success_url = "."
+
+    def get_success_url(self):
+        return reverse("topic", kwargs={"slug" : self.object.slug})
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return super().form_valid(form)
 
 '''
 ilerde sss eklemek istersek bunu kullanıcaz
@@ -161,3 +161,12 @@ ilerde sss eklemek istersek bunu kullanıcaz
 class SSSView(generic.TemplateView):
     template_name = "blog/sss.html"
 '''
+
+class RegistrationView(generic.FormView):
+    form_class = CustomUserCreationForm
+    template_name = "forum/signup.html"
+    success_url = "/"
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)

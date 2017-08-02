@@ -15,19 +15,19 @@
         </tr>
       </thead>
       <tbody>
-        {% for foo in object.topics.all %}
+        {% for foo in objects %}
           <tr>
             <th><a href="{% url "topic" slug=foo.slug %}"
             >{{ foo.title }}</a></th>
-            <th>Posts</th>
+            <th>{{ foo.posts.all|length }}</th>
             <th>{{ foo.viewed }}</th>
-            <th>{{ foo.updated }}</th>
+            <th>{{ foo.posts.first.created }}</th>
           </tr>
         {% endfor %}
       </tbody>
     </table>
     <hr>
-
+    {% if request.user.is_authenticated %}
     <div class="container">
       <!-- Trigger the modal with a button -->
       <button type="button" class="btn btn-info btn-md" data-toggle="modal"
@@ -64,6 +64,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 </div>
 
