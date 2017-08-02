@@ -45,12 +45,23 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Sign Up</a></li>
-          <li><a href="#">Login</a></li>
+          {% if request.user.is_authenticated %}
+            <form action="{% url "logout" %}" method="post" >
+              {% csrf_token %}
+              <input type="hidden" value="/" name="next">
+              <span>Hello {{ request.user.username }},</span>
+              <button>Logout</button>
+            </form>
+          {% else %}
+            <li><a href="#">Sign Up</a></li>
+            <li><a href="{% url "login" %}">Login</a></li>
+          {% endif %}
+
         </ul>
       </div>
     </div>
 	</nav>
+
   <div class="container">
     {% block content %}
     {% endblock %}

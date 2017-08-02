@@ -98,3 +98,8 @@ body {
 .dropdown-menu {
     background: #486579;
 }
+
+ul>form>span {
+    color: white;
+    padding-top: 10px;
+}

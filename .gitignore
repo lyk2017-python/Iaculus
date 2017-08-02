@@ -4,3 +4,6 @@
 *.log
 *.sqlite3
 media/
+Iaculus/Iaculus/__pycache__/
+Iaculus/forum/__pycache__/
+Iaculus/forum/migrations/__pycache__/

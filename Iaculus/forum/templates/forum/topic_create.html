@@ -21,13 +21,12 @@
           <button onclick="like(false, {{ foo.id }})">Dislike</button>
         {% endfor %}
     </div>
-
+  {% if request.user.is_authenticated %}
     <div class="container">
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-md" data-toggle="modal"
         data-target="#myModal">New Post
         </button>
-
         <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
@@ -58,6 +57,7 @@
             </div>
         </div>
     </div>
+  {% endif %}
     <script>
       function like(param, id) {
         $.post({

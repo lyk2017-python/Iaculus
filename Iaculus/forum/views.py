@@ -1,13 +1,18 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import F
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import generic
 
 from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm, TopicForm
 from forum.models import Category, Topic, Post
 
+class LoginCreateView(LoginRequiredMixin, generic.CreateView):
+    pass
 
 class HomepageView(generic.ListView):
     """
@@ -72,13 +77,17 @@ class CategoryView(generic.FormView):
         self.object = form.save()
         return super().form_valid(form)
 
-class TopicView(generic.CreateView):
+class TopicView(LoginCreateView):
     """
     Bir topic altındaki postlar sıralanır ve topic seçmeden post atılır
     """
     form_class = NewPostForm
     template_name = "forum/topic_create.html"
     success_url = "."
+
+    @method_decorator(login_required)
+    def post(self, request, *a, **kw):
+        return super().post(request, *a, **kw)
 
     def get_topic(self):
         query = Topic.objects.filter(slug=self.kwargs["slug"]).order_by("created")
