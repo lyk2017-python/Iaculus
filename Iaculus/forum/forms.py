@@ -22,6 +22,18 @@ class NewPostForm(forms.ModelForm):
             "slug" : HiddenInput(),
         }
 
+class TopicForm(forms.Form):
+    category = forms.ModelChoiceField(Category.objects.all())
+    title = forms.CharField()
+    body = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
+
+    def save(self):
+        with transaction.atomic():
+            topic = Topic.objects.create(title=self.cleaned_data["title"],
+                                         category=self.cleaned_data["category"])
+            Post.objects.create(topic=topic, body=self.cleaned_data["body"])
+        return topic
+
 class CategoriedTopicForm(forms.Form):
     title = forms.CharField()
     category = forms.ModelChoiceField(Category.objects.filter(),

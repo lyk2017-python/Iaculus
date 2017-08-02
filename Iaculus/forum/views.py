@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
-from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm
+from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm, TopicForm
 from forum.models import Category, Topic, Post
 
 
@@ -22,17 +22,20 @@ class HomepageView(generic.ListView):
         contex["most_viewed_topics"] = Topic.objects.order_by("-viewed")
         return contex
 
-class TopicCreateView(generic.CreateView):
+class TopicCreateView(generic.FormView):
     """
     Anasayfadaki new post ile açılan sayfanın modeli: Kategorili topic açma
     """
-    model = Topic
-    success_url = "/"
-    fields = [
-        "title",
-        "category",
-        "slug",
-    ]
+    form_class = TopicForm
+    template_name = "forum/topic_form.html"
+    success_url = "."
+
+    def get_success_url(self):
+        return reverse("topic", kwargs={"slug" : self.object.slug})
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return super().form_valid(form)
 
 class CategoryView(generic.FormView):
     """
