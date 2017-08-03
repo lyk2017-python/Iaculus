@@ -115,6 +115,18 @@ def like(request):
     obj.refresh_from_db()
     return JsonResponse({"like": obj.score, "id": id})
 
+def report(request):
+    id = request.POST.get("id", default=None)
+    report = request.POST.get("report")
+    obj = get_object_or_404(Post, id=int(id))
+    if report == "true":
+        obj.report_count = F("report_count") + 1
+        obj.save(update_fields=["report_count"])
+    else:
+        return HttpResponse(status=400)
+    obj.refresh_from_db()
+    return JsonResponse({"report": obj.report_count, "id": id})
+
 class ContactFormView(generic.FormView):
     """
     Contact form page

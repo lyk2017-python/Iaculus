@@ -88,7 +88,6 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name="posts")
     body = models.TextField()
     score = models.SmallIntegerField(default=0)
-    report_count = models.PositiveSmallIntegerField(default=0)
     hidden = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)
 
@@ -116,6 +115,6 @@ def slug_belirle(sender, instance, *args, **kwargs):
 
 @receiver(pre_save, sender=Post)
 def auto_hidden(sender, instance, *args, **kwargs):
-    if instance.report_count >= 10:
+    if instance.score <= (-50):
         instance.hidden = True
     return instance

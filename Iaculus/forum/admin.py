@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+
 from forum.models import Post, Topic, Category
 
 """
@@ -107,7 +110,6 @@ class PostAdmin(admin.ModelAdmin):
         "created",
         "updated",
         "score",
-        "report_count",
         "hidden",
     ]
     search_fields = [  # Arama yapılacak özellikler
@@ -127,8 +129,14 @@ class PostAdmin(admin.ModelAdmin):
                 "fields": [
                     ("topic", "slug"),
                     "body",
-                    ("score", "report_count", "hidden"),
+                    ("score", "hidden"),
                 ]
             },
         ),
     ]
+
+@admin.register(User)
+class CustomUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+        ("Extra", {"fields": ("biography",)}),
+    )
