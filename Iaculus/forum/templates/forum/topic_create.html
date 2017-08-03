@@ -1,5 +1,5 @@
 {% extends 'forum/base.html' %}
-{% load bootstrap %}
+{% load bootstrap gravatar %}
 
 {% block content %}
     <div class="container">
@@ -13,11 +13,13 @@
                 <div class="panel panel-white post panel-shadow">
                   <div class="post-heading">
                     <div class="pull-left image">
-                      <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                      <span class="img-circle avatar">
+                        {% gravatar request.user.email 50 g %}
+                      </span>
                     </div>
                     <div class="pull-left meta">
                       <div class="title h5">
-                          <a href="#"><b>User</b></a>
+                          <a href="#"><b>{{ foo.user }}</b></a>
                           made a post.
                       </div>
                       <h6 class="text-muted time">

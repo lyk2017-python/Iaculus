@@ -32,8 +32,13 @@ h1 a {
     margin-left: 40px;
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Pacifico', cursive;
+h1, h2, h3, h4, a {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+p {
+    font-family: 'Roboto Slab', serif;
 }
 
 .date {

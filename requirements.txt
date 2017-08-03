@@ -1,2 +1,5 @@
 django
+pillow
 django-bootstrap-form
+django-gravatar2
+django-grappelli

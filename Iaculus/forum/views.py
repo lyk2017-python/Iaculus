@@ -10,7 +10,8 @@ from django.views import generic
 
 from forum.forms import CategoriedTopicForm, ContactForm, NewPostForm, \
     TopicForm, CustomUserCreationForm
-from forum.models import Category, Topic, Post
+from forum.models import Category, Topic, Post, User
+
 
 class LoginCreateView(LoginRequiredMixin, generic.CreateView):
     pass
@@ -20,7 +21,6 @@ class HomepageView(generic.ListView):
     Anasayfada view: katogoriler ve spn gönderiler gösterilir
     """
     model = Category
-    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)
@@ -52,6 +52,7 @@ class CategoryView(generic.FormView):
         if self.request.method in ["POST", "PUT"]:
             post_data = kwargs["data"].copy()
             post_data["category"] = self.get_category().id
+            post_data["user"] = self.request.user.id
             kwargs["data"] = post_data
         return kwargs
 
@@ -63,6 +64,7 @@ class CategoryView(generic.FormView):
             .all()\
             .annotate(postcount=Count("posts"))\
             .order_by(self.get_ordering())
+        context["category"] = self.get_category()
         return context
 
     def form_valid(self, form):
@@ -96,6 +98,7 @@ class TopicView(generic.CreateView):
         if self.request.method in ["POST", "PUT"]:
             post_data = kwargs["data"].copy()
             post_data["topic"] = self.get_topic().id
+            post_data["user"] = self.request.user.id
             kwargs["data"] = post_data
         return kwargs
 
@@ -123,18 +126,6 @@ def like(request):
         return HttpResponse(status=400)
     obj.refresh_from_db()
     return JsonResponse({"like": obj.score, "id": id})
-
-def report(request):
-    id = request.POST.get("id", default=None)
-    report = request.POST.get("report")
-    obj = get_object_or_404(Post, id=int(id))
-    if report == "true":
-        obj.report_count = F("report_count") + 1
-        obj.save(update_fields=["report_count"])
-    else:
-        return HttpResponse(status=400)
-    obj.refresh_from_db()
-    return JsonResponse({"report": obj.report_count, "id": id})
 
 class ContactFormView(generic.FormView):
     """
@@ -168,6 +159,14 @@ class TopicCreateView(generic.FormView):
     form_class = TopicForm
     template_name = "forum/topic_form.html"
     success_url = "."
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        if self.request.method in ["POST", "PUT"]:
+            post_data = kwargs["data"].copy()
+            post_data["user"] = self.request.user.id
+            kwargs["data"] = post_data
+        return kwargs
 
     def get_success_url(self):
         return reverse("topic", kwargs={"slug" : self.object.slug})

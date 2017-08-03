@@ -91,7 +91,7 @@ class Post(models.Model):
     report_count = models.PositiveSmallIntegerField(default=0)
     hidden = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)
-
+    user = models.ForeignKey("User")
 
     def __str__(self):
         return "#{id}".format(id=self.id)
