@@ -50,7 +50,7 @@
           {% if request.user.is_authenticated %}
             <li style="color: white;">
               <a href="#">Signed in as
-              {{ request.user.username }},</a>
+              {{ request.user.username|upper }}</a>
             </li>
             <li><a href="{% url "logout" %}">Logout</a></li>
           {% else %}

@@ -36,7 +36,7 @@ The Simpsons
 """
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 
@@ -92,12 +92,12 @@ class Post(models.Model):
     hidden = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)
 
+
     def __str__(self):
         return "#{id}".format(id=self.id)
 
     class Meta:
         get_latest_by = "created"
-        ordering = ["-created"]
 
 class User(AbstractUser):
     biograpyh = models.TextField(max_length=300)
@@ -119,3 +119,8 @@ def auto_hidden(sender, instance, *args, **kwargs):
     if instance.report_count <= -10:
         instance.hidden = True
     return instance
+
+@receiver(post_save, sender=Post)
+def update_topic(sender, instance, created, *args, **kwargs):
+    if created:
+        instance.topic.save(update_fields=["updated"])

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from django.db.models import F
+from django.db.models import F, Count
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -56,12 +56,20 @@ class CategoryView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["objects"] = self.get_category().topics.all()
+        context["objects"] = self\
+            .get_category()\
+            .topics\
+            .all()\
+            .annotate(postcount=Count("posts"))\
+            .order_by(self.get_ordering())
         return context
 
     def form_valid(self, form):
         self.object = form.save()
         return super().form_valid(form)
+
+    def get_ordering(self):
+        return self.request.GET.get("order", "id")
 
 class TopicView(generic.CreateView):
     """

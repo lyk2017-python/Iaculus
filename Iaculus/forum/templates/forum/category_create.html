@@ -3,25 +3,37 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-md-8 col-md-offset-2">
+  <div class="col-md-10 col-md-offset-1">
 
     <table class="table table-hover">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Posts</th>
-          <th>Viewed</th>
-          <th>Last Post</th>
+          <th>Title
+            <a href="?order=title"><i class="fa fa-chevron-up"></i></a>
+            <a href="?order=-title"><i class="fa fa-chevron-down"></i></a>
+          </th>
+          <th>Posts
+            <a href="?order=postcount"><i class="fa fa-chevron-up"></i></a>
+            <a href="?order=-postcount"><i class="fa fa-chevron-down"></i></a>
+          </th>
+          <th>Viewed
+            <a href="?order=viewed"><i class="fa fa-chevron-up"></i></a>
+            <a href="?order=-viewed"><i class="fa fa-chevron-down"></i></a>
+          </th>
+          <th>Last Post
+            <a href="?order=updated"><i class="fa fa-chevron-up"></i></a>
+            <a href="?order=-updated"><i class="fa fa-chevron-down"></i></a>
+          </th>
         </tr>
       </thead>
       <tbody>
         {% for foo in objects %}
           <tr>
-            <th><a href="{% url "topic" slug=foo.slug %}"
-            >{{ foo.title }}</a></th>
-            <th>{{ foo.posts.all|length }}</th>
-            <th>{{ foo.viewed }}</th>
-            <th>{{ foo.posts.first.created }}</th>
+            <td><a href="{% url "topic" slug=foo.slug %}"
+            >{{ foo.title }}</a></td>
+            <td>{{ foo.posts.all|length }}</td>
+            <td>{{ foo.viewed }}</td>
+            <td>{{ foo.updated|timesince }} ago</td>
           </tr>
         {% endfor %}
       </tbody>
