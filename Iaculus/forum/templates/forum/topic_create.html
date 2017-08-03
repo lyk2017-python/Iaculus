@@ -4,21 +4,46 @@
 {% block content %}
     <div class="container">
         <div class="date">Page View: {{ object.viewed }}</div>
-        <h2 class="media-heading">{{ object.title|title }}</h2>
+        <h2 class="media-heading">{{ object.title|title|center:45 }}</h2>
+      <hr>
         {% for foo in object_filter %}
-          <div class="media">
-            <div class="media-left media-middle">
-              <img src="https://www.causes.com/assets/avatar_placeholder-9a2f53db6270aa02b5ae2c5af1ffc72b.svg" class="media-object" style="width:80px">
-            </div>
-            <div class="media-body">
-              <p>{{ foo.body|linebreaks }}</p>
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-10 col-md-10">
+                <div class="panel panel-white post panel-shadow">
+                  <div class="post-heading">
+                    <div class="pull-left image">
+                      <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                    </div>
+                    <div class="pull-left meta">
+                      <div class="title h5">
+                          <a href="#"><b>User</b></a>
+                          made a post.
+                      </div>
+                      <h6 class="text-muted time">
+                        {{ foo.created|timesince }} ago
+                      </h6>
+                    </div>
+                  </div>
+                  <div class="post-description">
+                    <p>{{ foo.body }}</p>
+                    <div class="stats">
+                      <button onclick="like(true, {{ foo.id }})" class="btn
+                      btn-default stat-item">
+                        <i class="fa fa-thumbs-up icon"></i>Like
+                      </button>
+                      <button onclick="like(false, {{ foo.id }})" class="btn
+                      btn-default stat-item">
+                        <i class="fa fa-thumbs-down icon"></i>Dislike
+                      </button>
+                      <button><span id="like_{{ foo.id }}">{{foo.score}}</span></button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="date">{{ foo.created }}</div>
-          <hr>
-          <span id="like_{{ foo.id }}">{{foo.score}}</span>
-          <button onclick="like(true, {{ foo.id }})">Like</button>
-          <button onclick="like(false, {{ foo.id }})">Dislike</button>
         {% endfor %}
     </div>
   {% if request.user.is_authenticated %}
@@ -27,6 +52,7 @@
         <button type="button" class="btn btn-info btn-md" data-toggle="modal"
         data-target="#myModal">New Post
         </button>
+      <hr>
         <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog">
@@ -50,9 +76,6 @@
                       </div>
                     </div>
                     </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -72,6 +95,5 @@
           }
         })
       }
-    </script>
-
+      </script>
 {% endblock %}

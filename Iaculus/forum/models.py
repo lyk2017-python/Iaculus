@@ -116,6 +116,6 @@ def slug_belirle(sender, instance, *args, **kwargs):
 
 @receiver(pre_save, sender=Post)
 def auto_hidden(sender, instance, *args, **kwargs):
-    if instance.report_count >= 10:
+    if instance.report_count <= -10:
         instance.hidden = True
     return instance
