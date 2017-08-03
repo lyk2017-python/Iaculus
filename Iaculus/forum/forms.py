@@ -28,7 +28,7 @@ class NewPostForm(forms.ModelForm):
 class TopicForm(forms.Form):
     category = forms.ModelChoiceField(Category.objects.all())
     title = forms.CharField()
-    body = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
+    body = forms.CharField(widget=forms.Textarea(attrs={"rows": 5}))
 
     def save(self):
         with transaction.atomic():

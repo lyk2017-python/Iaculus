@@ -20,12 +20,13 @@ class HomepageView(generic.ListView):
     Anasayfada view: katogoriler ve spn gönderiler gösterilir
     """
     model = Category
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)
-        contex["last_posts"] = Post.objects.all()
-        contex["liked_posts"] = Post.objects.order_by("-score")
-        contex["most_viewed_topics"] = Topic.objects.order_by("-viewed")
+        contex["last_posts"] = Post.objects.all()[:5]
+        contex["liked_posts"] = Post.objects.order_by("-score")[:5]
+        contex["most_viewed_topics"] = Topic.objects.order_by("-viewed")[:5]
         return contex
 
 class CategoryView(generic.FormView):
