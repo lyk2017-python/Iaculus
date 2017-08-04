@@ -4,7 +4,9 @@
 {% block content %}
     <div class="container">
         <div class="date">Page View: {{ object.viewed }}</div>
-        <h2 class="media-heading">{{ object.title|title|center:45 }}</h2>
+        <h3 class="media-heading">
+          {{ object.title|title }}
+        </h3>
       <hr>
         {% for foo in object_filter %}
           <div class="container">

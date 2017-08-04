@@ -4,12 +4,6 @@ from django.contrib.auth.models import User
 
 from forum.models import Post, Topic, Category
 
-"""
-admin.site.register(Category)
-admin.site.register(Topic)
-admin.site.register(Post)
-"""
-
 class PostInline(admin.StackedInline):
     model = Post
     extra = 0

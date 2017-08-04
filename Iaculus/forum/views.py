@@ -24,7 +24,7 @@ class HomepageView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         contex = super().get_context_data(**kwargs)
-        contex["last_posts"] = Post.objects.all()[:5]
+        contex["last_posts"] = Post.objects.order_by("-updated")[:5]
         contex["liked_posts"] = Post.objects.order_by("-score")[:5]
         contex["most_viewed_topics"] = Topic.objects.order_by("-viewed")[:5]
         return contex
