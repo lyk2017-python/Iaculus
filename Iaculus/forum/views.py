@@ -175,13 +175,6 @@ class TopicCreateView(generic.FormView):
         self.object = form.save()
         return super().form_valid(form)
 
-'''
-ilerde sss eklemek istersek bunu kullanıcaz
-
-class SSSView(generic.TemplateView):
-    template_name = "blog/sss.html"
-'''
-
 class RegistrationView(generic.FormView):
     form_class = CustomUserCreationForm
     template_name = "forum/signup.html"

@@ -13,5 +13,4 @@ urlpatterns = [
     url(r'^contact/$', ContactFormView.as_view(), name="contact"),
     url(r'^signup/$', RegistrationView.as_view(), name='signup'),
     url(r"^api/like$", like, name="like_dislike"),
-    #url(r'^sss$', SSSView.as_view(), name="faq"),
 ]

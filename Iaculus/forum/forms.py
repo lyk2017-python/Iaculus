@@ -9,6 +9,9 @@ from forum.models import Topic, Post, Category, User
 
 
 class NewPostForm(forms.ModelForm):
+    """
+    Topic altında yeni post formu
+    """
     body = forms.CharField(widget=forms.Textarea(attrs={"rows":4}))
     class Meta:
         model = Post
@@ -27,6 +30,9 @@ class NewPostForm(forms.ModelForm):
         }
 
 class TopicForm(forms.Form):
+    """
+    Kategori seçmeli form
+    """
     category = forms.ModelChoiceField(Category.objects.all())
     title = forms.CharField()
     body = forms.CharField(widget=forms.Textarea(attrs={"rows": 5}))
@@ -62,5 +68,6 @@ class ContactForm(forms.Form):
     body = forms.CharField(widget=forms.Textarea(attrs={"rows":3}))
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField()
     class Meta(UserCreationForm.Meta):
         model = get_user_model()

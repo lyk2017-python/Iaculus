@@ -88,7 +88,6 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name="posts")
     body = models.TextField()
     score = models.SmallIntegerField(default=0)
-    report_count = models.PositiveSmallIntegerField(default=0)
     hidden = models.BooleanField(default=False)
     slug = models.SlugField(blank=True)
     user = models.ForeignKey("User")
@@ -112,12 +111,6 @@ def slug_belirle(sender, instance, *args, **kwargs):
             instance.slug = slugify(instance.topic)
         else:
             raise AttributeError("Slug belirlemek için title ya da topic girin.")
-    return instance
-
-@receiver(pre_save, sender=Post)
-def auto_hidden(sender, instance, *args, **kwargs):
-    if instance.report_count <= -10:
-        instance.hidden = True
     return instance
 
 @receiver(post_save, sender=Post)

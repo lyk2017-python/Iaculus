@@ -55,7 +55,7 @@
                             <p class="list-group-item-text">
                                 {{obj.body|truncatewords:15}}
                             </p>
-                            <p>{{ obj.created }}</p>
+                            <p>{{ obj.created|timesince }} ago</p>
                         </a>
                 {% endfor %}
             </div>
